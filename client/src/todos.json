@@ -1,0 +1,28 @@
+{
+  "todos": [ {
+      "_id": "100",
+      "text": "Read a bit",
+      "complete": true
+    },
+    {
+      "_id": "102",
+      "text": "Do laundry",
+      "complete": false
+    },
+    {
+      "_id": "103",
+      "text": "Hit the gym",
+      "complete": true
+    },
+    {
+      "_id": "104",
+      "text": "Organize office",
+      "complete": false
+    },
+    {
+      "_id": "105",
+      "text": "Call Brad",
+      "complete": false
+    }
+  ]
+}

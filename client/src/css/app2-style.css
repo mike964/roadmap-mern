@@ -1,0 +1,59 @@
+/* Drag n Drop app styles */
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 1.5vmin);
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.characters {
+  list-style: none;
+  padding-left: 0;
+}
+
+.characters li {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: solid 2px #d0d0d0;
+  border-radius: 2rem;
+  padding: 6px 14px;
+  margin-bottom: .5em;
+}
+
+.characters p {
+  max-width: none;
+  font-weight: bold;
+  margin: 0;
+}
+
+.characters-thumb {
+  overflow: hidden;
+  flex-shrink: 0;
+  /* width: 2em; */
+  /* height: 2em; */
+  /* background-color: #e8e8e8; */ 
+  margin-right: .4em;
+  font-size: 1.4rem;
+}
+
+.characters-thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
