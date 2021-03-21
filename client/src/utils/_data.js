@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
 
 // mock data
 
@@ -74,7 +73,7 @@ const projects = [
 
 const steps = [
   {
-    _id: uuidv4(),
+    _id: "345345-id",
     project: "some project id",
     name: null,
     createdAt: null,  // added at
@@ -86,7 +85,7 @@ const steps = [
     // description : ''
   },
   {
-    _id: uuidv4(),
+    _id: "345345-id",
     project: "498623095730473045924",
     name: 'First step of Expensify v2',
     createdAt: null,  // added at
@@ -96,7 +95,7 @@ const steps = [
     finishedAt: null
   },
   {
-    _id: uuidv4(),
+    _id: "345345-id",
     project: "498623095730473045924",
     name: 'Second step of Expensify v2',
     createdAt: null,  // added at
@@ -106,7 +105,7 @@ const steps = [
     finishedAt: null
   },
   {
-    _id: uuidv4(),
+    _id: "345345-id",
     project: "498623095730473045924",
     name: 'Third step of Expensify v2',
     createdAt: null,  // added at
@@ -116,7 +115,7 @@ const steps = [
     finishedAt: null
   },
   {
-    _id: uuidv4(),
+    _id: "345345-id",
     project: "275279717856319752612",
     name: 'Winnit first step',
     createdAt: null,  // added at
@@ -126,7 +125,7 @@ const steps = [
     finishedAt: null
   },
   {
-    _id: uuidv4(),
+    _id: "345345-id",
     project: "275279717856319752612",
     name: 'Winnit second step',
     createdAt: null,  // added at
@@ -136,7 +135,7 @@ const steps = [
     finishedAt: null
   },
   {
-    _id: uuidv4(),
+    _id: "345345-id",
     project: "275279717856319752612",
     name: 'Winnit third step',
     createdAt: null,  // added at
