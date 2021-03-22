@@ -49,9 +49,9 @@ const ProjectPg = () => {
   }, [ projectId ] )
 
 
-  const completedSteps = steps ? steps.filter( item => item.finished === true ) : []
-  const todos = steps ? steps.filter( item => item.type === 'todo' ) : []
-  const notes = steps ? steps.filter( item => item.type === 'note' ) : []
+  const completedSteps = steps.filter( item => item.finished === true )
+  const todos = steps.filter( item => item.type === 'todo' )
+  const notes = steps.filter( item => item.type === 'note' )
   const completionPercentage = completedSteps.length
     ? Math.round( completedSteps.length / todos.length * 100 ) : 0
 

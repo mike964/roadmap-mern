@@ -54,24 +54,10 @@ const StepList = () => {
           { steps.map( ( step, index ) => <StepItem step={ step } key={ step._id } />
           ) }
         </>
-          : <div className="text-center pt-2"> No steps for this project yet</div>
+          : <div className="text-center py-3"> No steps for this project yet</div>
         } </>
     }
 
   </div>
 }
 export default StepList
-// <StepItem step={ step } key={ step._id } showChevrons={ showChevrons } />
-// <p className="x" key={ step._id }>{ step._id }</p> 
-
-// { loading ? <div className="p-5 center">
-// <Spinner animation="border" variant="warning" />
-// </div> : <>
-//   { steps.length ? <>
-//     { steps.map( ( step, index ) =>
-//       <StepItem step={ step } key={ step._id }  /> ) }
-//   </>
-//     : <div className="text-center pt-2"> No steps for this project yet</div>
-//   }
-// </>
-// }

@@ -7,20 +7,31 @@ import { Accordion, Form } from 'react-bootstrap';
 import moment from 'moment';
 import EditBtn from '../common/EditBtn';
 import Hoverable from '../common/Hoverable';
+import SucssFailSpinr from '../common/SucssFailSpinr';
 
 const StepItem = ( { step } ) => {
-
   const { hideNotes, hideCompleted } = useSelector( state => state.global )
 
   const [ isEditing, setIsEditing ] = useState( false )
-
+  const [ reqStatus, setReqStatus ] = useState( '' )   // success - fail - spinner
   const [ state, setState ] = useState( {   // step
-    name: step.name,
-    createdAt: step.createdAt,
-    finishedAt: step.finishedAt,
-    type: step.type,
-    note: step.note ? step.note : ''
+    // name: step.name,
+    // createdAt: step.createdAt, 
+    // finishedAt: '',
+    // type: step.type,   
+    // note: '',  
   } )
+
+  useEffect( () => {
+    if ( step ) {
+      setState( {
+        ...step,
+        note: !step.note ? '' : step.note,
+        // finishedAt: !step.finishedAt ? '' : step.finishedAt
+      } )
+      // * In order to prevent input null prop error
+    }
+  }, [ step ] )
 
   const step_createdAt = moment( step.createdAt ).format( 'YYYY-MM-DD, h:mm A' )
   const step_createdAt_short = moment( step.createdAt ).format( 'YY MMM DD, H' )
@@ -43,35 +54,41 @@ const StepItem = ( { step } ) => {
     background: bg_color,
   }
 
+  const handleExpansion = () => {
+    if ( !isEditing )
+      setExpanded( !expanded )
+  }
+
   const handleDeleteClick = () => {
     // first pop up to make sure
     if ( window.confirm( "Are you sure?" ) )
       deleteStep_DB( step._id )
   }
 
-  const handleSaveClick = () => {
-    updateStep( step._id, {
-      // ...state
+  const handleSaveClick = async () => {
+    setReqStatus( 'spinner' )
+    const success = await updateStep( step._id, {
       name: state.name,
       type: state.type,
       note: state.note,
+      createdAt: state.createdAt,
+      // finishedAt: state.finishedAt  // * No need 
     } )
     setIsEditing( !isEditing )
+    setReqStatus( success ? 'success' : 'fail' )
+    setTimeout( () => setReqStatus( '' ), 3000 )
   }
 
-  const handleExpansion = () => {
-    if ( !isEditing )
-      setExpanded( !expanded )
-  }
-
-  const handleCheckbox = ( e ) => {
+  const handleCheckbox = async ( e ) => {
     handleInputChange( e )
+    setReqStatus( 'spinner' )
     const checked = e.target.checked
-    // change step in DB
-    updateStep( step._id, ( checked
+    const success = await updateStep( step._id, ( checked
       ? { finished: true, finishedAt: Date.now() }
       : { finished: false }
     ) )
+    setReqStatus( success ? 'success' : 'fail' )
+    setTimeout( () => setReqStatus( '' ), 3000 )
   }
 
   const handleEditClick = () => {
@@ -93,7 +110,7 @@ const StepItem = ( { step } ) => {
   const hideStep = checkHide()
   // console.log( hideStep )
 
-  //===============================================================================
+  //============================================================================
   return <>{
     hideStep ? <></>
       : <div className="step-item" style={ style_ }>
@@ -122,23 +139,23 @@ const StepItem = ( { step } ) => {
                 name='name' value={ state.name }
                 onChange={ handleInputChange }
               />
-              : <span> { state.name } </span> }
+              : <span> { step.name } </span> }
           </div>
           { !isEditing && <div className="col-3 center py-2">
-            {
-              step.type === 'note' ? <span>{ step_createdAt }</span>
-                : <Hoverable hoverText={ `Added ${ step_createdAt }` }>
-                  <span>
-                    { step.finished
-                      ? <span className="x">{ step_finishedAt }</span>
-                      : <span className="c-999">Not yet</span> }
-                  </span>
-                </Hoverable>
+            { step.type === 'note' ? <span>{ step_createdAt }</span>
+              : <Hoverable hoverText={ `Added ${ step_createdAt }` }>
+                <span>
+                  { step.finished
+                    ? <span className="x">{ step_finishedAt }</span>
+                    : <span className="c-999">Not yet</span> }
+                </span>
+              </Hoverable>
             }
           </div> }
 
           {/* Delete & Edit Btns */ }
           <div className="col-auto p-2" >
+            <SucssFailSpinr status={ reqStatus } />
             <EditBtn
               onClick={ handleEditClick }
               onSave={ handleSaveClick }
@@ -148,7 +165,7 @@ const StepItem = ( { step } ) => {
               <i className="fas fa-pen-square mr-2 skyblue" />
             </EditBtn>
             { !isEditing &&
-              <i onClick={ handleDeleteClick } className="fas fa-times red action-btn" /> }
+              <i onClick={ handleDeleteClick } className="fas fa-times-circle red action-btn" /> }
           </div>
         </div>
 
@@ -180,8 +197,8 @@ const StepItem = ( { step } ) => {
               { isEditing
                 ? <input className="no-style-input w-100"
                   type="text"
-                  name='createdAt' value={ state.createdAt }
-                  onChange={ handleInputChange }
+                //name='finishedAt' value={ state.finishedAt }
+                // onChange={ handleInputChange }
                 /> : <>
                   { step.finished
                     ? <span className="x">{ step_finishedAt }</span>
@@ -190,10 +207,7 @@ const StepItem = ( { step } ) => {
               }</div> }
             <div className="col p-2">
               { isEditing && <div className="x">
-                Type
-        <Form.Control
-                  as="select"
-                  name='type'
+                Type  <Form.Control as="select" name='type'
                   value={ state.type }
                   onChange={ handleInputChange }
                 >

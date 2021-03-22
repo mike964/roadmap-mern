@@ -19,11 +19,14 @@ const SucssFailSpinr = ( { status, children } ) => {
 
   return <span style={ stylee } >
     { status === 'spinner'
-      && <Spinner as="span" animation="border" variant="warning" size="sm" /> }
+      && <Spinner as="span" animation="border" variant="warning" size="sm" />
+    }
     { status === 'success'
-      && <span className='green bg-w px-1' >&#10004;</span> }
+      && <i className="fas fa-check" style={ { color: 'limegreen' } } />
+    }
     { status === 'fail'
-      && <span className='red bg-w  px-1'>&#10006;</span> }
+      && <i className="far fa-times-circle red" />
+    }
     { ( !status || status === 'default' ) && <>{ children }</> }
   </span>
 }

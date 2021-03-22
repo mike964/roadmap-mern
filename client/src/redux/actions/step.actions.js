@@ -85,9 +85,11 @@ export const updateStep = async ( stepId, step_ ) => {
     } )
     // Reload steps for redux current project  after delete
     // getStepsofProject()
+    return true
 
   } catch ( err ) {
     console.log( err )
+    return false
   }
 }
 
