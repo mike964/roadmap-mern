@@ -22,7 +22,7 @@ const SucssFailSpinr = ( { status, children } ) => {
       && <Spinner as="span" animation="border" variant="warning" size="sm" />
     }
     { status === 'success'
-      && <i className="fas fa-check" style={ { color: 'limegreen' } } />
+      && <i className="far fa-check-circle" style={ { color: 'green' } } />
     }
     { status === 'fail'
       && <i className="far fa-times-circle red" />

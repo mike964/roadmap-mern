@@ -53,11 +53,12 @@ const ProjectDetailsBox = ( { project, completionPercentage } ) => {
     setReqStatus( 'spinner' )
     const success = await updateProject_DB( state._id, {
       // name: state.name, 
-      ...state
+      // ...state  // fix here
     } )
     setReqStatus( success ? 'success' : 'fail' )
-    setTimeout( () => setReqStatus( 'default' ), 2000 );  // Set back to default
-    setIsEditing( false )
+    setTimeout( () => setReqStatus( '' ), 3000 );  // Set back to default
+    if ( success )
+      setIsEditing( false )
   }
 
   const FormLabel = ( { children } ) => {

@@ -83,10 +83,9 @@ const StepItem = ( { step } ) => {
     handleInputChange( e )
     setReqStatus( 'spinner' )
     const checked = e.target.checked
-    const success = await updateStep( step._id, ( checked
-      ? { finished: true, finishedAt: Date.now() }
-      : { finished: false }
-    ) )
+    const success = await updateStep( step._id,
+      { finished: checked, finishedAt: checked ? Date.now() : '' }
+    )
     setReqStatus( success ? 'success' : 'fail' )
     setTimeout( () => setReqStatus( '' ), 3000 )
   }
