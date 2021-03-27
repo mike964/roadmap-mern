@@ -26,7 +26,7 @@ const StepItem = ( { step } ) => {
     if ( step ) {
       setState( {
         ...step,
-        note: !step.note ? '' : step.note,
+        note: step.note ? step.note : '',
         // finishedAt: !step.finishedAt ? '' : step.finishedAt
       } )
       // * In order to prevent input null prop error
@@ -71,11 +71,12 @@ const StepItem = ( { step } ) => {
       name: state.name,
       type: state.type,
       note: state.note,
-      createdAt: state.createdAt,
+      // createdAt: state.createdAt,
       // finishedAt: state.finishedAt  // * No need 
     } )
-    setIsEditing( !isEditing )
+
     setReqStatus( success ? 'success' : 'fail' )
+    if ( success ) setIsEditing( !isEditing )
     setTimeout( () => setReqStatus( '' ), 3000 )
   }
 
@@ -87,6 +88,7 @@ const StepItem = ( { step } ) => {
       { finished: checked, finishedAt: checked ? Date.now() : '' }
     )
     setReqStatus( success ? 'success' : 'fail' )
+
     setTimeout( () => setReqStatus( '' ), 3000 )
   }
 

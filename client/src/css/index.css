@@ -307,9 +307,8 @@ background-color: skyblue;
 .step-item {
   border-bottom: 1px solid #c9c9c9; 
   /* padding: 6px; */
-  /* height: 40px; */
-  transition: height 0.9s;
-  overflow: hidden;
+  /* height: 40px; */ 
+  overflow: hidden; 
 }
 /* .step-item:hover{
 background-color: #e9ffeb;
@@ -337,3 +336,12 @@ text-decoration: underline;
   cursor: pointer;
 }
 
+.sticky { 
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: #e6f3ff;  
+  border: 1px solid #6ab7ff;
+  /* padding: 50px; */
+  /* font-size: 20px; */
+}

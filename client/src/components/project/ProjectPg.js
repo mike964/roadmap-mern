@@ -114,15 +114,12 @@ const ProjectPg = () => {
 
     {/* Add New Step Form  */ }
     <div className="bg-w mb-3 border shadow-sm">
-      <div className="p-3 my-3">
+      <div className="p-3 bg-w stickyY">
+        {/* Fix sticky step form later */ }
         <StepForm projectId={ project ? project._id : '' } />
+        <StepFilters />
       </div>
-      <div className="x">
-        <div className="px-3">
-          <StepFilters />
-        </div>
-        <StepList />
-      </div>
+      <StepList />
     </div>
     <StepListFooter />
   </div>
