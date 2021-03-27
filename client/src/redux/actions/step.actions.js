@@ -70,6 +70,7 @@ export const addStep_DB = async ( step ) => {
 
 
 export const updateStep = async ( stepId, step_ ) => {
+  console.log( step_ )
   // * step_ => updated step
   try {
     // {{URL}}/api/v1/projects/steps/5ee297b1982d934ac0985c98
