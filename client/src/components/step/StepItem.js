@@ -16,10 +16,11 @@ const StepItem = ( { step } ) => {
   const [ reqStatus, setReqStatus ] = useState( '' )   // success - fail - spinner
   const [ state, setState ] = useState( {   // step
     // name: step.name,
-    // createdAt: step.createdAt, 
-    // finishedAt: '',
-    // type: step.type,   
-    // note: '',  
+    // createdAt: step.createdAt,
+    // finished: step.finished,
+    // finishedAt: step.finished ? step.finishedAt : '',
+    // type: step.type,
+    // note: step.note ? step.note : '',
   } )
 
   useEffect( () => {
