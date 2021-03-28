@@ -14,7 +14,7 @@ const StepFilters = () => {
   }
 
 
-  return <div className="row my-3">
+  return <div className="row">
     <div className="col">
       <Form.Check
         type="switch"

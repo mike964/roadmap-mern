@@ -69,7 +69,7 @@ export const addStep_DB = async ( step ) => {
 }
 
 
-export const updateStep = async ( stepId, step_ ) => {
+export const updateStep_DB = async ( stepId, step_ ) => {
   console.log( step_ )
   // * step_ => updated step
   try {

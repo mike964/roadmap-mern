@@ -86,7 +86,7 @@ const ProjectPg = () => {
     <div className="center c-888 p-2"> url_id :  { projectId }  </div>
 
     {/* If project exist */ }
-    <div className="bg-w my-3 p-2 border shadow-sm">
+    <div className="bg-w my-3 p-3 border shadow-sm">
       { project
         ? <Tabs
           defaultActiveKey="details"
@@ -113,10 +113,12 @@ const ProjectPg = () => {
     </div>
 
     {/* Add New Step Form  */ }
-    <div className="bg-w mb-3 border shadow-sm">
-      <div className="p-3 bg-w stickyY">
+    <div className="bg-w my-3 border shadow-sm">
+      <div className="step-form-box p-3 bg-w sticky-top">
         {/* Fix sticky step form later */ }
-        <StepForm projectId={ project ? project._id : '' } />
+        <div className="mb-3">
+          <StepForm projectId={ project ? project._id : '' } />
+        </div>
         <StepFilters />
       </div>
       <StepList />

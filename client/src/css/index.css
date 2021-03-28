@@ -309,12 +309,21 @@ background-color: skyblue;
   /* padding: 6px; */
   /* height: 40px; */ 
   overflow: hidden; 
+  background-color: #fff;
+  border-left: #ccc;
 }
 /* .step-item:hover{
 background-color: #e9ffeb;
 height: 150px;
 }  */
- 
+.step-item.finished {
+background-color: #e6f3ff;
+border-left: blue;
+}
+.step-item.note {
+  background-color: #fff8ea ;
+  border-left: gold;
+}
 
 .auth-btn {
   font-weight: 500;
@@ -335,13 +344,7 @@ text-decoration: underline;
 .action-btn:hover{
   cursor: pointer;
 }
-
-.sticky { 
-  position: -webkit-sticky;
-  position: sticky;
-  top: 0;
-  background-color: #e6f3ff;  
-  border: 1px solid #6ab7ff;
-  /* padding: 50px; */
-  /* font-size: 20px; */
+ 
+.step-form-box {
+  border-bottom: 2px solid #aaaaaa;
 }

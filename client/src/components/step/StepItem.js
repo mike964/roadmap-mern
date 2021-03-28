@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { deleteStep_DB, updateStep } from '../../redux/actions/step.actions';
+import { deleteStep_DB, updateStep_DB } from '../../redux/actions/step.actions';
 import { useSelector } from 'react-redux';
 import XIcon from '../Icons/XIcon';
 import ChevronSvg from '../Icons/ChevronSvg';
@@ -10,25 +10,25 @@ import Hoverable from '../common/Hoverable';
 import SucssFailSpinr from '../common/SucssFailSpinr';
 
 const StepItem = ( { step } ) => {
+  const { finishedAt, createdAt } = step
   const { hideNotes, hideCompleted } = useSelector( state => state.global )
 
   const [ isEditing, setIsEditing ] = useState( false )
   const [ reqStatus, setReqStatus ] = useState( '' )   // success - fail - spinner
   const [ state, setState ] = useState( {   // step
     // name: step.name,
-    // createdAt: step.createdAt,
-    // finished: step.finished,
-    // finishedAt: step.finished ? step.finishedAt : '',
     // type: step.type,
     // note: step.note ? step.note : '',
   } )
+
+  const [ dateCreated, setDateCreated ] = useState( createdAt ? createdAt : "" )
+  // const [ dateFinished, setDateFinished ] = useState( finishedAt ? finishedAt : "" )  // @complete later
 
   useEffect( () => {
     if ( step ) {
       setState( {
         ...step,
         note: step.note ? step.note : '',
-        // finishedAt: !step.finishedAt ? '' : step.finishedAt
       } )
       // * In order to prevent input null prop error
     }
@@ -42,18 +42,10 @@ const StepItem = ( { step } ) => {
   const [ expanded, setExpanded ] = useState( false )
 
   const handleInputChange = ( e ) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked
-      : e.target.value
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
     setState( { ...state, [ e.target.name ]: value } )
   }
 
-  const left_border_color = step.type === 'note' ? 'gold' : ( step.finished ? 'blue' : '#ccc' )
-  const bg_color = step.type === 'note' ? '#fff8ea' : ( step.finished ? '#e6f3ff' : '#fff' )
-
-  const style_ = {
-    borderLeft: `4px solid ${ left_border_color }`,
-    background: bg_color,
-  }
 
   const handleExpansion = () => {
     if ( !isEditing )
@@ -66,31 +58,35 @@ const StepItem = ( { step } ) => {
       deleteStep_DB( step._id )
   }
 
-  const handleSaveClick = async () => {
+
+  const handleUpdateStep = async ( newStep ) => {
     setReqStatus( 'spinner' )
-    const success = await updateStep( step._id, {
+    const success = await updateStep_DB( step._id, newStep )
+
+    setReqStatus( success ? 'success' : 'fail' )
+    if ( success ) setIsEditing( false )
+    setTimeout( () => setReqStatus( '' ), 3000 )  // Disappear after 3 seconds
+  }
+
+  const handleSaveChangesClick = () => {
+    handleUpdateStep( {
       name: state.name,
       type: state.type,
       note: state.note,
-      // createdAt: state.createdAt,
-      // finishedAt: state.finishedAt  // * No need 
     } )
+  }
 
-    setReqStatus( success ? 'success' : 'fail' )
-    if ( success ) setIsEditing( !isEditing )
-    setTimeout( () => setReqStatus( '' ), 3000 )
+  // * handle updating step.createdAt & step.finishedAt
+  const handleUpdateDates = () => {
+    handleUpdateStep( {
+      createdAt: dateCreated
+    } )
   }
 
   const handleCheckbox = async ( e ) => {
-    handleInputChange( e )
-    setReqStatus( 'spinner' )
+    handleInputChange( e )   // Change local state
     const checked = e.target.checked
-    const success = await updateStep( step._id,
-      { finished: checked, finishedAt: checked ? Date.now() : '' }
-    )
-    setReqStatus( success ? 'success' : 'fail' )
-
-    setTimeout( () => setReqStatus( '' ), 3000 )
+    handleUpdateStep( { finished: checked, finishedAt: checked ? Date.now() : '' } )
   }
 
   const handleEditClick = () => {
@@ -111,11 +107,12 @@ const StepItem = ( { step } ) => {
 
   const hideStep = checkHide()
   // console.log( hideStep )
+  const classname = step.finished ? "finished" : ( step.type === 'note' ? "note" : "" )
 
   //============================================================================
   return <>{
     hideStep ? <></>
-      : <div className="step-item" style={ style_ }>
+      : <div className={ `step-item ${ classname }` }>
         <div className="row">
           <div className="col-auto p-2">
             { step.type === 'note'
@@ -160,7 +157,7 @@ const StepItem = ( { step } ) => {
             <SucssFailSpinr status={ reqStatus } />
             <EditBtn
               onClick={ handleEditClick }
-              onSave={ handleSaveClick }
+              onSave={ handleSaveChangesClick }
               isEditing={ isEditing }
               onlyIcon
             >
@@ -188,11 +185,17 @@ const StepItem = ( { step } ) => {
             <div className="col p-2">
               Added : { ' ' }
               { isEditing
-                ? <input className="no-style-input w-100"
-                  type="text"
-                  name='createdAt' value={ state.createdAt }
-                  onChange={ handleInputChange }
-                /> : <span>{ step_createdAt }</span>
+                ? <>
+                  <input className="no-style-input w-100"
+                    type="text"
+                    name='createdAt'
+                    value={ dateCreated }
+                    onChange={ ( e ) => setDateCreated( e.target.value ) }
+                  />
+                  <span className="green" onClick={ handleUpdateDates }>Save</span>
+
+                </>
+                : <span>{ step_createdAt }</span>
               }</div>
             { step.type === 'todo' && <div className="col p-2">
               Completed : { ' ' }
@@ -216,7 +219,8 @@ const StepItem = ( { step } ) => {
                   <option value='todo'> Todo </option>
                   <option value='note'> Note </option>
                 </Form.Control>
-              </div> }
+              </div>
+              }
             </div>
           </div>
         </div>
