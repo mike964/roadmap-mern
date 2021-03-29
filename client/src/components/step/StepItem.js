@@ -77,13 +77,13 @@ const StepItem = ( { step } ) => {
 
   const handleCheckbox = async ( e ) => {
     // handleInputChange( e )   // Change local state - no need
-    setReqStatus( 'spinner' )
+    // setReqStatus( 'spinner' )
     const checked = e.target.checked
     const success = await updateStep_DB( step._id, {
       finished: checked,
       finishedAt: checked ? Date.now() : ''
     } )
-    setReqStatus( success ? '' : 'fail' )
+    // setReqStatus( success ? '' : 'fail' )
   }
 
 
