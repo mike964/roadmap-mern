@@ -17,14 +17,7 @@ const ProjectDetailsBox = ( { project, completionPercentage } ) => {
     // createdAt 
   } )
 
-  const created_at = moment( state.createdAt ).format( 'MMMM Do YYYY, hh:mm' )
-
-
-  useEffect( () => {
-    if ( project ) {
-      setState( { ...project } )
-    }
-  }, [ project ] )
+  const created_at = moment( project.createdAt ).format( 'MMMM Do YYYY, hh:mm' )
 
 
   const [ isEditing, setIsEditing ] = useState( false )
@@ -35,14 +28,11 @@ const ProjectDetailsBox = ( { project, completionPercentage } ) => {
     setState( { ...state, [ e.target.name ]: value } )
   }
 
-  // const FormGrup = ( { name, value, onChange, type, textarea } ) =>
-  //   <input
-  //     name={ name }
-  //     type={ type ? type : "text" }
-  //     value={ value }
-  //     onChange={ onChange }
-  //     as={ textarea ? "textarea" : "" }
-  //   />
+  const onEditClick = () => {
+    setState( { ...project } )
+    setIsEditing( !isEditing )
+    // if ( !expanded ) setExpanded( true )
+  }
 
   const [ reqStatus, setReqStatus ] = useState( '' )
   // * request state to backend in order to show check when update project success
@@ -52,7 +42,12 @@ const ProjectDetailsBox = ( { project, completionPercentage } ) => {
     console.log( state )
     setReqStatus( 'spinner' )
     const success = await updateProject_DB( state._id, {
-      // name: state.name, 
+      name: state.name,
+      description: state.description,
+      goals: state.goals,
+      features: state.features,
+      notes: state.notes,
+      createdAt: state.createdAt
       // ...state  // fix here
     } )
     setReqStatus( success ? 'success' : 'fail' )
@@ -95,7 +90,7 @@ const ProjectDetailsBox = ( { project, completionPercentage } ) => {
         <div className="col text-right c-666">
           <SucssFailSpinr status={ reqStatus } />
           <EditBtn
-            onClick={ () => { setIsEditing( !isEditing ) } }
+            onClick={ onEditClick }
             isEditing={ isEditing }
             onSave={ handleUpdateProject }
           >

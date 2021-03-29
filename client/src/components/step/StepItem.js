@@ -3,7 +3,7 @@ import { deleteStep_DB, updateStep_DB } from '../../redux/actions/step.actions';
 import { useSelector } from 'react-redux';
 import XIcon from '../Icons/XIcon';
 import ChevronSvg from '../Icons/ChevronSvg';
-import { Accordion, Form } from 'react-bootstrap';
+import { Accordion, Card, Form } from 'react-bootstrap';
 import moment from 'moment';
 import EditBtn from '../common/EditBtn';
 import Hoverable from '../common/Hoverable';
@@ -21,18 +21,16 @@ const StepItem = ( { step } ) => {
     // note: step.note ? step.note : '',
   } )
 
-  const [ dateCreated, setDateCreated ] = useState( createdAt ? createdAt : "" )
-  // const [ dateFinished, setDateFinished ] = useState( finishedAt ? finishedAt : "" )  // @complete later
-
-  useEffect( () => {
-    if ( step ) {
-      setState( {
-        ...step,
-        note: step.note ? step.note : '',
-      } )
-      // * In order to prevent input null prop error
-    }
-  }, [ step ] )
+  // useEffect( () => {
+  //   if ( step ) {
+  //     setState( {
+  //       ...step,
+  //       note: step.note ? step.note : '',
+  //     } )
+  //     // * In order to prevent input null prop error
+  //   }
+  // }, [ step ] )
+  // @toFix:  Maybe no need for the line above - remove it 
 
   const step_createdAt = moment( step.createdAt ).format( 'YYYY-MM-DD, h:mm A' )
   const step_createdAt_short = moment( step.createdAt ).format( 'YY MMM DD, H' )
@@ -46,7 +44,6 @@ const StepItem = ( { step } ) => {
     setState( { ...state, [ e.target.name ]: value } )
   }
 
-
   const handleExpansion = () => {
     if ( !isEditing )
       setExpanded( !expanded )
@@ -58,41 +55,37 @@ const StepItem = ( { step } ) => {
       deleteStep_DB( step._id )
   }
 
+  const onEditClick = () => {
+    setState( { ...step } )
+    setIsEditing( !isEditing )
+    // if ( !expanded ) setExpanded( true )
+  }
 
-  const handleUpdateStep = async ( newStep ) => {
+  const handleUpdateStep = async () => {
     setReqStatus( 'spinner' )
-    const success = await updateStep_DB( step._id, newStep )
+    const success = await updateStep_DB( step._id, {
+      name: state.name,
+      note: state.note,
+      type: state.type,
+      createdAt: state.createdAt
+    } )
 
     setReqStatus( success ? 'success' : 'fail' )
     if ( success ) setIsEditing( false )
     setTimeout( () => setReqStatus( '' ), 3000 )  // Disappear after 3 seconds
   }
 
-  const handleSaveChangesClick = () => {
-    handleUpdateStep( {
-      name: state.name,
-      type: state.type,
-      note: state.note,
-    } )
-  }
-
-  // * handle updating step.createdAt & step.finishedAt
-  const handleUpdateDates = () => {
-    handleUpdateStep( {
-      createdAt: dateCreated
-    } )
-  }
-
   const handleCheckbox = async ( e ) => {
-    handleInputChange( e )   // Change local state
+    // handleInputChange( e )   // Change local state - no need
+    setReqStatus( 'spinner' )
     const checked = e.target.checked
-    handleUpdateStep( { finished: checked, finishedAt: checked ? Date.now() : '' } )
+    const success = await updateStep_DB( step._id, {
+      finished: checked,
+      finishedAt: checked ? Date.now() : ''
+    } )
+    setReqStatus( success ? '' : 'fail' )
   }
 
-  const handleEditClick = () => {
-    setIsEditing( !isEditing )
-    setExpanded( !expanded ? true : false )
-  }
 
   // * Check to see if hide this step or display
   const checkHide = () => {
@@ -109,10 +102,12 @@ const StepItem = ( { step } ) => {
   // console.log( hideStep )
   const classname = step.finished ? "finished" : ( step.type === 'note' ? "note" : "" )
 
+
   //============================================================================
   return <>{
     hideStep ? <></>
-      : <div className={ `step-item ${ classname }` }>
+      : <div className={ `step-item ${ classname }` } >
+        {/* 1ST ROW */ }
         <div className="row">
           <div className="col-auto p-2">
             { step.type === 'note'
@@ -126,22 +121,26 @@ const StepItem = ( { step } ) => {
               />
             }
           </div>
-          <div className="col p-2 " style={ { height: !expanded ? '40px' : 'auto' } }
-            onClick={ handleExpansion }
+
+          <div className="col p-2"
             data-toggle="collapse"
+            style={ { height: !expanded ? '38px' : 'auto' } }
+            onClick={ handleExpansion }
             href={ !isEditing ? `#collapse-${ step._id }` : 'x' }
             aria-expanded="false"
             aria-controls={ `collapse-${ step._id }` }
           >
             { isEditing
               ? <input className="no-style-input w-100" type="text"
-                name='name' value={ state.name }
-                onChange={ handleInputChange }
+                name='name' value={ state.name } onChange={ handleInputChange }
               />
-              : <span> { step.name } </span> }
+              : <span> { step.name } </span>
+            }
           </div>
-          { !isEditing && <div className="col-3 center py-2">
-            { step.type === 'note' ? <span>{ step_createdAt }</span>
+
+          { !isEditing && !expanded && <div className="col-3 center py-2">
+            { step.type === 'note'
+              ? <span>{ step_createdAt }</span>
               : <Hoverable hoverText={ `Added ${ step_createdAt }` }>
                 <span>
                   { step.finished
@@ -156,8 +155,8 @@ const StepItem = ( { step } ) => {
           <div className="col-auto p-2" >
             <SucssFailSpinr status={ reqStatus } />
             <EditBtn
-              onClick={ handleEditClick }
-              onSave={ handleSaveChangesClick }
+              onClick={ onEditClick }
+              onSave={ handleUpdateStep }
               isEditing={ isEditing }
               onlyIcon
             >
@@ -171,30 +170,32 @@ const StepItem = ( { step } ) => {
         {/* SECOND ROW - WHEN STEP EXPAND */ }
         <div className="collapse" id={ `collapse-${ step._id }` }>
           <div className="row">
-            <div className="col p-2">
+            <div className="col-auto p-2">
               Note :
-             { isEditing
-                ? <input className="no-style-input w-100" type="text"
+              </div>
+            <div className="col p-2">
+              { isEditing
+                ? <input className="no-style-input w-100"
+                  type="text"
                   name='note'
-                  value={ state.note }
+                  value={ !state.note ? "" : state.note }
                   onChange={ handleInputChange }
                 />
                 : <span>{ step.note } </span> }
             </div>
-            <div className="w-100"></div>
+          </div>
+          <div className="row">
             <div className="col p-2">
               Added : { ' ' }
               { isEditing
-                ? <>
-                  <input className="no-style-input w-100"
-                    type="text"
-                    name='createdAt'
-                    value={ dateCreated }
-                    onChange={ ( e ) => setDateCreated( e.target.value ) }
-                  />
-                  <span className="green" onClick={ handleUpdateDates }>Save</span>
-
-                </>
+                ? <input className="no-style-input w-100"
+                  type="text"
+                  name='createdAt'
+                  //value={ dateCreated }
+                  value={ state.createdAt }
+                  // onChange={ ( e ) => setDateCreated( e.target.value ) }
+                  onChange={ handleInputChange }
+                />
                 : <span>{ step_createdAt }</span>
               }</div>
             { step.type === 'todo' && <div className="col p-2">
@@ -210,18 +211,17 @@ const StepItem = ( { step } ) => {
                     : <span className="c-999">Not yet</span> }
                 </>
               }</div> }
-            <div className="col p-2">
-              { isEditing && <div className="x">
-                Type  <Form.Control as="select" name='type'
-                  value={ state.type }
-                  onChange={ handleInputChange }
-                >
-                  <option value='todo'> Todo </option>
-                  <option value='note'> Note </option>
-                </Form.Control>
-              </div>
-              }
-            </div>
+
+            { isEditing && <div className="col-2">
+              Type  <Form.Control as="select"
+                name='type'
+                value={ state.type }
+                onChange={ handleInputChange }
+              >
+                <option value='todo'> Todo </option>
+                <option value='note'> Note </option>
+              </Form.Control>
+            </div> }
           </div>
         </div>
       </div>

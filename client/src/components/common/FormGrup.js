@@ -11,7 +11,7 @@ const FormGrup = ( { label, name, value, onChange, type, textarea, rows } ) => {
       value={ value ? value : '' }
       onChange={ onChange }
       as={ textarea ? 'textarea' : 'input' }
-      rows={ rows ? rows : 2 }
+      rows={ rows ? rows : 3 }
     />
   </Form.Group>
 }
