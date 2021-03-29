@@ -81,7 +81,7 @@ const StepItem = ( { step } ) => {
     const checked = e.target.checked
     const success = await updateStep_DB( step._id, {
       finished: checked,
-      finishedAt: checked ? Date() : ''
+      // finishedAt: checked ? Date() : ''
     } )
     setReqStatus( success ? '' : 'fail' )
   }
