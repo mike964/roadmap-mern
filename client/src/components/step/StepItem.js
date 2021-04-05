@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { deleteStep_DB, updateStep_DB } from '../../redux/actions/step.actions';
+import { deleteStep_DB, updateStep_DB, completeStep } from '../../redux/actions/step.actions';
 import { useSelector } from 'react-redux';
 import XIcon from '../Icons/XIcon';
 import ChevronSvg from '../Icons/ChevronSvg';
@@ -10,7 +10,7 @@ import Hoverable from '../common/Hoverable';
 import SucssFailSpinr from '../common/SucssFailSpinr';
 
 const StepItem = ( { step } ) => {
-  const { finishedAt, createdAt } = step
+
   const { hideNotes, hideCompleted } = useSelector( state => state.global )
 
   const [ isEditing, setIsEditing ] = useState( false )
@@ -79,13 +79,18 @@ const StepItem = ( { step } ) => {
     // handleInputChange( e )   // Change local state - no need
     setReqStatus( 'spinner' )
     const checked = e.target.checked
-    const success = await updateStep_DB( step._id, {
-      finished: checked,
-      finishedAt: checked ? Date() : ''
-    } )
+
+    let success
+    if ( checked === true ) {
+      success = await completeStep( step._id )
+    } else {
+      success = await updateStep_DB( step._id, {
+        finished: checked,
+        finishedAt: ''
+      } )
+    }
     setReqStatus( success ? '' : 'fail' )
   }
-
 
   // * Check to see if hide this step or display
   const checkHide = () => {
@@ -101,7 +106,6 @@ const StepItem = ( { step } ) => {
   const hideStep = checkHide()
   // console.log( hideStep )
   const classname = step.finished ? "finished" : ( step.type === 'note' ? "note" : "" )
-
 
   //============================================================================
   return <>{

@@ -3,7 +3,7 @@ import express from 'express'
 import { setUser, checkProjectUser, setProject } from '../middleware/mdlwrs.js'
 import { createProject, getProjects, getProject, updateProject, deleteProject } from '../controllers/project.cont.js'
 import { protect } from '../controllers/auth.cont.js'
-import stepRoutes from './steps.route.js'
+import stepRoutes from './step.route.js'
 
 
 

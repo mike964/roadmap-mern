@@ -206,24 +206,23 @@ const protect = asyncHandler( async ( req, res, next ) => {
     return next( new ErrorResponse( 'No Token!', 401 ) )
   }
 
-  console.log( token )   // output: Bearer 5ee0e50fa350c44dd0daa385
+  // console.log( token )   // output: Bearer 5ee0e50fa350c44dd0daa385
 
   // Verify token if exist  {userid , issuedat, expiration}
   // const decoded = jwt.verify( token, process.env.JWT_SECRET )
 
   // console.log( decoded )   // output: { id: '5edbf8e44ae9a940185278d9', iat: 1591521162, exp: 1594113162 }
 
-
-  // console.log( req.user ) 
+  // console.log( req.user )
   // Verify token if exist  {userid , issuedat, expiration}
   const decodedToken = jwt.verify( token, process.env.JWT_SECRET )
 
-  console.log( decodedToken )   // output: { id: '5edbf8e44ae9a940185278d9', iat: 1591521162, exp: 1594113162 }
+  // console.log( decodedToken )   // output: { id: '5edbf8e44ae9a940185278d9', iat: 1591521162, exp: 1594113162 }
   // console.log( 'Token: ' + token )
 
   let user = await User.findById( decodedToken.id )
   // req.user = await User.findById( token )
-  console.log( user )
+  // console.log( user )
 
   if ( !user ) {
     return next( new ErrorResponse( 'User not found!', 401 ) )

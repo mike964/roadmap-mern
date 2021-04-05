@@ -5,7 +5,8 @@ import {
   getStep,
   createStep,
   updateStep,
-  deleteStep
+  deleteStep,
+  MarkStepAsCompleted
 } from '../controllers/step.cont.js'
 // import { protect } from '../middleware/auth.cont.js'
 import {
@@ -19,7 +20,7 @@ const router = express.Router( { mergeParams: true } )
 
 
 router.use( protect )
-// All routes below will use the two middlewares above
+// * All routes below will use the two middlewares above
 
 
 router
@@ -29,11 +30,14 @@ router
   .post( createStep )
 
 router
-  .route( '/:stepId' )
+  .route( '/:id' )  // stepId
   .get( checkStepUser, getStep )
   .patch( checkStepUser, updateStep )
   .delete( checkStepUser, deleteStep )
 //   .patch( protect, authorize( 'publisher', 'admin' ), updateStep )
 //   .delete( protect, authorize( 'publisher', 'admin' ), deleteStep )
+
+// * Mark step as finished (completed)
+router.route( '/:id/complete' ).patch( MarkStepAsCompleted )
 
 export default router

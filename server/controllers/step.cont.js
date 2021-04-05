@@ -28,4 +28,28 @@ const updateStep = crud.updateOne( Step )
 // @access    Private/Admin
 const deleteStep = crud.deleteOne( Step )
 
-export { getSteps, createStep, getStep, updateStep, deleteStep }
+
+const MarkStepAsCompleted = asyncHandler( async ( req, res ) => {
+  // const order = await Order.findById(req.params.id)
+
+  console.log( '--- MarkStepAsCompleted() ---' )
+  // console.log( req.params.id )
+  const stepId = req.params.id
+
+  const updatedStep = await Step.findByIdAndUpdate( stepId, {
+    finished: true,
+    finishedAt: Date.now()
+  }, { new: true } )
+
+  if ( updatedStep ) {
+    res.status( 200 ).json( {
+      success: true,
+      doc: updatedStep
+    } )
+  } else {
+    res.status( 404 )
+    throw new Error( 'Step not updated!' )
+  }
+} )
+
+export { getSteps, createStep, getStep, updateStep, deleteStep, MarkStepAsCompleted }

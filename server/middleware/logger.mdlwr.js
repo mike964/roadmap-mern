@@ -16,18 +16,18 @@ export const logger = ( req, res, next ) => {
 
   // *** Ignore showing requests for static assets (jpg, png, ...) in Terminal
   if ( !x ) {
-    console.log( '------- logger() ------'.magenta )
+    console.log( '----- logger() -----'.yellow )
     console.log(
       // `${ req.method } ${ req.protocol } :// ${ req.get( 'host' ) } ${ req.originalUrl }`
       `${ req.method }: ${ req.get( 'host' ) } ${ req.originalUrl }`.magenta
     )
     console.log( `min-sec-milis: ${ d.getMinutes() }:${ d.getSeconds() }:${ d.getMilliseconds() }`.cyan )
-    console.log( '--- req.body: ' )
-    console.log( req.body )
-    console.log( '--- req.params: ' )
-    console.log( req.params )
-    console.log( '--- req.query: ' )
-    console.log( req.query )
+    // console.log( '--- req.body: ' )
+    // console.log( req.body )
+    // console.log( '--- req.params: ' )
+    // console.log( req.params )
+    // console.log( '--- req.query: ' )
+    // console.log( req.query )
   }
 
   next()

@@ -17,7 +17,7 @@ const stepSchema = new Schema( {
     type: String,
     default: null
   },
-  finished: {
+  finished: {   // completed
     type: Boolean,
     default: false
   },

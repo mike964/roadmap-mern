@@ -114,3 +114,28 @@ export const deleteStep_DB = async ( stepId ) => {
     console.log( err )
   }
 }
+
+
+export const completeStep = async ( stepId ) => {
+  // check step as finished if step.type == todo
+  try {
+    // await fetch( `/logs/${ id }`, { method: 'DELETE'  // } );
+
+    // await axos.delete( `/steps/${ stepId }` )
+    const res = await axos.patch( `/api/steps/${ stepId }/complete` )
+    console.log( res.data )
+
+    // * UPDATE STEP in REDUX after DB
+    dispatch( {
+      type: 'UPDATE_STEP',
+      payload: res.data.doc   // res.data is the whole updated step
+    } )
+    // Reload steps for redux current project  after delete
+    // getStepsofProject()
+    return true
+
+  } catch ( err ) {
+    console.log( err )
+    return false
+  }
+}
