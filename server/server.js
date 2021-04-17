@@ -9,7 +9,7 @@ import cookieParser from 'cookie-parser'
 import connectDB from './config/db.js';
 import { logger } from './middleware/logger.mdlwr.js';
 import authRouter from './routes/auth.route.js'
-import Routers from './routes.js'
+import Routes from './routes.js' 
 //===================================================================== 
 // ** loads environment variables
 // dotenv.config()
@@ -50,13 +50,14 @@ app.use( logger )
 const __dirname = path.resolve();
 
 // *** Passport js routes ( Google / Facebook )
-app.get( '/test', ( req, res ) => res.send( "Testing server ..." ) )
+app.get( '/test', ( req, res ) => res.send( "Testing server ..." ) ) 
 
 // app.use( '/auth', require( './routes/auth.route' ) )
 app.use( '/auth', authRouter )
+
 // *** Mount API Routers ***  ) ) 
 // app.use( '/api', require( './routes' ) )
-app.use( '/api', Routers )
+app.use( '/api', Routes ) 
 
 // *** Set public as static files folder  
 app.use( '/api', express.static( path.join( __dirname, 'public' ) ) )

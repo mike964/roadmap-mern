@@ -348,3 +348,17 @@ text-decoration: underline;
 .step-form-box {
   border-bottom: 1px solid #bbb;
 }
+
+.sidebar { 
+  box-shadow: inset -1px 0 0 rgb(0 0 0 / 10%);
+  /* background-color: #f7fcff; */
+}
+.sidebar-sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 48px;
+  height: calc(100vh - 48px);
+  padding-top: .5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}

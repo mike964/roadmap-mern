@@ -3,18 +3,16 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import colors from 'colors'
 // import users from './data/users.js'
-// import products from './data/products.js'
-// import User from './models/userModel.js'
-// import Product from './models/productModel.js'
-// import Order from './models/orderModel.js'
+// import products from './data/products.js' 
 import connectDB from './config/db.js'
 import User from './models/User.js';
 import { users, projects } from './utils/_data.js';
 import Project from './models/Project.js';
+import Step from './models/Step.js'
 
 dotenv.config()
 
-connectDB()
+// connectDB() 
 
 const importData = async () => {
   try {
@@ -56,8 +54,34 @@ const destroyData = async () => {
   }
 }
 
+const updateData = async ()=>{
+  // * Update multiple documents
+  // Dosn't work properly. need fix
+try {
+  await Step.updateMany( {   }, { $rename: { 'nickname': 'alias', 'cell': 'mobile' } } )
+} catch (error) {
+  console.error( `${ error }`.red.inverse )
+    process.exit( 1 )
+}
+
+}
+
+ 
 if ( process.argv[ 2 ] === '-d' ) {
   destroyData()
+} else if ( process.argv[ 2 ] === '-i' ) {
+  importData() 
+} else if ( process.argv[ 2 ] === '-u' ) {
+  updateData() 
+} else if ( process.argv[ 2 ] === '-t' ) {
+  console.log('Test')
 } else {
-  importData()
+  // importData()
+  console.log('No command!')
 }
+
+
+//==============
+// *** HINTS ***
+//==============
+// db.students.update( { _id: 1 }, { $rename: { 'nickname': 'alias', 'cell': 'mobile' } } )

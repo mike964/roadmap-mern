@@ -1,26 +1,70 @@
 import express from 'express'
-import { protect, restrictedTo } from '../middleware/auth.const.js'
-import { createUser, getUsers } from '../controllers/user.cont'
+// import { createUser, getUsers } from '../controllers/user.cont'
 import { getSteps } from '../controllers/step.cont.js'
-import userRouter from './users.route'
+// import userRouter from './users.route.js'
+import { protect, restrictedTo } from '../controllers/auth.cont.js'
+import Step from '../models/Step.js'
+import Project from '../models/Project.js'
 
 //=============================================================
 const router = express.Router()
 
 // Only user.role = admin can crud users
-router.use( protect )
-router.use( restrictedTo( 'admin' ) )
+router.use(protect)
+router.use(restrictedTo('admin'))
 // All routes below will use the two middlewares above
 
-router
-  .route( '/steps' )
-  .get( getSteps )
+router.route('/steps').get(getSteps)
 
-router.use( '/users', userRouter )
+// router.use( '/users', userRouter )
+
+// * insertMany or Delete or Update multiple documents (only admin)
+router.get('/multiple', function (req, res) {
+  // req.params.action    => i: insertmany , d: deletemany: , u: updatemany
+  // console.log(req.query.action)   // output : i,d, u
+  const action = req.query.action
+
+  let Qr = ''
+  if (action === 'i') {
+    //qr = insertManay()
+  } else if (action === 'd') {
+    // Step.updateMany(
+    //   {},
+    //   { $rename: { finishedAt: 'completedAt' } },
+    //   { multi: true },
+    // )
+  } else if (action === 'u') {
+    // Step.updateMany(
+    //   {},
+    //   { $rename: { finishedAt: 'completedAt' } },
+    //   { multi: true },
+    //   function (err, blocks) {
+    //     if (err) {
+    //       throw err
+    //     }
+    //     console.log('done!')
+    //   },
+    // )
+    Project.updateMany(
+      {},
+      { active: false },
+      { multi: true },
+      function (err, blocks) {
+        if (err) {
+          throw err
+        }
+        console.log('done!')
+      },
+    )
+  } else {
+    res.send('No action')
+  }
+
+  res.send(action)
+})
 
 // router.route( '/:id' )
 //   .delete( deleteUser )
 //   .put( updateUser )
-
 
 export default router

@@ -9,50 +9,47 @@ import { getMyProjects } from '../redux/actions/project.actions'
 import ProjectTable from '../components/project/ProjectTable'
 import { Route, Switch, useParams } from 'react-router-dom'
 
-
 // ** My (logged in user) projects page
 const ProjectsPg = () => {
+  console.log('# ProjectsPg mounted')
   // const { projects } = useSelector( state => state.project )
-  const projectLoading = useSelector( state => state.project.loading )
-  const { projects } = useSelector( state => state.project )
+  const { projects, projectLoading: loading } = useSelector(
+    (state) => state.project,
+  )
+  // const { isAuthenticated } = useSelector((state) => state.auth)
 
-
-  function Child () {
-    // We can use the `useParams` hook here to access
-    // the dynamic pieces of the URL.
-    let { id } = useParams();
-
-    return (
-      <div>
-        <h3>ID: { id }</h3>
-      </div>
-    );
-  }
+  useEffect(() => {
+    // if (isAuthenticated) {  // no need bcuz it's private route
+    getMyProjects()
+    // }
+  }, [])
 
   //======================================================================
-  return <div className="x">
-    <div className="container">
+  return (
+    <div className="x">
+      <div className="container">
+        <div className="row py-3">
+          <div className="col">
+            <AddProjectBtnModal />
+          </div>
+          <div className="col-3">
+            <button>Sort by</button>
+            <FilterProjectBtn />
+          </div>
+        </div>
 
-      <div className="row py-3">
-        <div className="col">
-          <AddProjectBtnModal />
-        </div>
-        <div className="col-3">
-          <button>Sort by</button>
-          <FilterProjectBtn />
-        </div>
+        {loading ? (
+          <div className="text-center pt-5">
+            <Spinner animation="border" variant="primary" />
+          </div>
+        ) : (
+          <div className="bg-w">
+            <ProjectTable projects={projects} />
+          </div>
+        )}
       </div>
-
-      { projectLoading ? <div className="text-center pt-5">
-        {/* <Spinner animation="border" variant="primary" /> */ }
-      </div>
-        : <div className="bg-w">
-          <ProjectTable projects={ projects } />
-        </div>
-      }
     </div>
-
-  </div>
+  )
 }
 
 export default ProjectsPg

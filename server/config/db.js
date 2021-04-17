@@ -7,15 +7,15 @@ let local_db = false   // whether connect to local db or atlas db
 let mongoURI
 let connectionMsg
 
-// console.log( "Atlas URI: " + process.env.ATLAS_URI )
+console.log( "Atlas URI: " + process.env.ATLAS_URI )
 
 if ( local_db ) {
   mongoURI = "mongodb://localhost:27017/moslm-roadmap"
-  connectionMsg = "Local DB connected ..."
+  connectionMsg = "Local DB connected.."
 } else {
   // mongoURI = "mongodb+srv://mike:mike1234@cluster0-gpzsv.mongodb.net/roadmap-db?retryWrites=true&w=majority"
   mongoURI = process.env.ATLAS_URI
-  connectionMsg = "ATLAS DB connected ..."
+  connectionMsg = "ATLAS DB connected.."
 }
 
 
@@ -23,6 +23,9 @@ if ( local_db ) {
 
 const connectDB = async () => {
   try {
+    // Make Mongoose use `findOneAndUpdate()`. Note that this option is `true`
+// by default, you need to set it to false.
+mongoose.set('useFindAndModify', false);
     const conn = await mongoose.connect( mongoURI, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
