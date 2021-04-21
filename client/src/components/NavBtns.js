@@ -21,7 +21,7 @@ const NavBtns = () => {
     >
       <NavItem text="Home" to="/" />
       <NavItem text="Projects" to="/projects" />
-      <NavItem text="Productivity" to="/overal-productiv" />
+      <NavItem text="Productivity" to="/overal-productivity" />
     </Nav>
   )
 }

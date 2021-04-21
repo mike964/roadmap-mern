@@ -17,11 +17,11 @@ const setCurrnetProject = (project) => {
   })
 }
 
-const setProjectLoading = (project) => {
-  // console.log( project )   // good
+const setProjectLoading = (x) => {
+  // x: boolean
   dispatch({
-    type: 'SET_CURRENT_PROJECT',
-    payload: project,
+    type: 'SET_PROJECT_LOADING',
+    payload: x,
   })
 }
 
@@ -40,7 +40,7 @@ const getProjectById = async (id) => {
 
     success = true
   } catch (error) {
-    setProjectsLoading(false)
+    setProjectLoading(false)
   }
 
   return success
@@ -48,7 +48,7 @@ const getProjectById = async (id) => {
 
 const getProjectBySlug = async (slug) => {
   // ** GET single project by Id
-
+  setProjectLoading(true)
   setReqHeaders()
   let success = false
 
@@ -59,7 +59,7 @@ const getProjectBySlug = async (slug) => {
 
     success = true
   } catch (error) {
-    setProjectsLoading(false)
+    setProjectLoading(false)
   }
 
   return success
@@ -67,7 +67,7 @@ const getProjectBySlug = async (slug) => {
 
 // ** Get project of current logged in user
 const getMyProjects = async () => {
-  setProjectsLoading(true)
+  setProjectLoading(true)
 
   // First set req.headers . auth in order to pass protected route
   setReqHeaders()
@@ -81,24 +81,17 @@ const getMyProjects = async () => {
       // payload: projects                   // * mock data - when no server
     })
   } catch (error) {
-    setProjectsLoading(false)
+    setProjectLoading(false)
     return false
   }
   // console.log( 'fuk u pic shit' )   // doesn't display if error
-}
-
-const setProjectsLoading = (x) => {
-  dispatch({
-    type: 'SET_PROJECT_LOADING',
-    payload: x, // boolean
-  })
 }
 
 const addProject_DB = async (newProject) => {
   try {
     // * First Add project to DB
 
-    // setReqHeaders()
+    setReqHeaders()
     const response = await axos.post(`/api/projects`, newProject)
     console.log(response)
 

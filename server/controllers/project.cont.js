@@ -14,7 +14,7 @@ const createProject = asyncHandler(async (req, res, next) => {
   console.log('--- createProject() cont ---')
 
   let newProject = {
-    user: req.user._id,
+    owner: req.user._id,
     ...req.body,
   }
   // console.log( newProject )

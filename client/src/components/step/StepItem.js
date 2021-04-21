@@ -12,6 +12,8 @@ import moment from 'moment'
 import EditBtn from '../common/EditBtn'
 import Hoverable from '../common/Hoverable'
 import SucssFailSpinr from '../common/SucssFailSpinr'
+import StepNoteForm from './StepNoteForm'
+import StepNotesList from './StepNotesList'
 
 const StepItem = ({ step }) => {
   const { hideNotes, hideCompleted } = useSelector((state) => state.global)
@@ -40,7 +42,7 @@ const StepItem = ({ step }) => {
   const step_createdAt_short = moment(step.createdAt).format('YY MMM DD, H')
   const step_finishedAt = moment(step.completedAt).format('YYYY-MM-DD, h:mm A')
   const step_finishedAt_short = moment(step.completedAt).format(
-    'YYYY-MM-DD, h:mm A',
+    'YYYY-MM-DD, h:mm A'
   )
 
   const [expanded, setExpanded] = useState(false)
@@ -203,8 +205,7 @@ const StepItem = ({ step }) => {
           {/* SECOND ROW - WHEN STEP EXPAND */}
           <div className="collapse" id={`collapse-${step._id}`}>
             <div className="row">
-              <div className="col-auto p-2">Note :</div>
-              <div className="col p-2">
+              {/* <div className="col p-2">
                 {isEditing ? (
                   <input
                     className="no-style-input w-100"
@@ -216,9 +217,9 @@ const StepItem = ({ step }) => {
                 ) : (
                   <span>{step.note} </span>
                 )}
-              </div>
+              </div> */}
             </div>
-            <div className="row">
+            <div className="row mb-2">
               <div className="col p-2">
                 Added :{' '}
                 {isEditing ? (
@@ -271,6 +272,12 @@ const StepItem = ({ step }) => {
                   </Form.Control>
                 </div>
               )}
+            </div>
+            <div className="row">
+              <div className="col p-2">
+                <StepNoteForm stepId={step._id} />
+                <StepNotesList notes={step.notes} />
+              </div>
             </div>
           </div>
         </div>

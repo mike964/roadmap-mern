@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser'
 // import compression from 'compression'
 import connectDB from './config/db.js'
 import { logger } from './middleware/logger.mdlwr.js'
-import authRouter from './routes/auth.route.js'
+import authRoutes from './routes/auth.route.js'
 import Routes from './routes.js'
 //=====================================================================
 // ** loads environment variables
@@ -26,7 +26,7 @@ app.use(
     origin: 'http://127.0.0.1:3000', // local host
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // allow session cookie from browser to pass through
-  }),
+  })
 )
 
 // *** Using Middlewares ***
@@ -48,10 +48,8 @@ const __dirname = path.resolve()
 
 // *** Passport js routes ( Google / Facebook )
 app.get('/test', (req, res) => res.send('Testing server ...'))
-
 // app.use( '/auth', require( './routes/auth.route' ) )
-app.use('/auth', authRouter)
-
+app.use('/auth', authRoutes)
 // *** Mount API Routers ***  ) )
 // app.use( '/api', require( './routes' ) )
 app.use('/api', Routes)
@@ -67,12 +65,12 @@ if (process.env.NODE_ENV === 'production') {
   // ** When we deploy to the server - Run React js client as static folder
   app.use(express.static(path.join(__dirname, '/client/build')))
   app.get('*', (req, res) =>
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')),
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   )
 } else {
   //  if NODE_ENV == development
   app.get('/', (req, res) =>
-    res.send("Hello from '/'. NODE_ENV == development"),
+    res.send("Hello from '/'. NODE_ENV == development")
   )
 }
 

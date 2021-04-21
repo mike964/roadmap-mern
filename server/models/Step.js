@@ -13,10 +13,20 @@ const stepSchema = new Schema(
       ref: 'Project',
       required: [true, 'Step must belong to a project'],
     },
+    user: {
+      // user that created step
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+      required: [true, 'Step must belong to a user'],
+    },
     note: {
       // write your feeling after compliting step
       type: String,
       default: null,
+    },
+    notes: {
+      type: Array,
+      default: [], // array of notes  {id , text, date}
     },
     completed: {
       //
@@ -26,10 +36,6 @@ const stepSchema = new Schema(
     completedAt: {
       // completed at (date)
       type: Date,
-    },
-    index: {
-      type: Number,
-      default: 0,
     },
     // groups : [backend ,frontend ,...]
     // keywords: [x, y, ..]
@@ -43,7 +49,7 @@ const stepSchema = new Schema(
   {
     // timestamps: true  // createdAt, updatedAt
     timestamps: { createdAt: false, updatedAt: true },
-  },
+  }
 )
 
 const Step = mongoose.model('Step', stepSchema)

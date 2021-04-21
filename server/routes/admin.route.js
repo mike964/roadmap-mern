@@ -5,6 +5,7 @@ import { getSteps } from '../controllers/step.cont.js'
 import { protect, restrictedTo } from '../controllers/auth.cont.js'
 import Step from '../models/Step.js'
 import Project from '../models/Project.js'
+import User from '../models/User.js'
 
 //=============================================================
 const router = express.Router()
@@ -28,34 +29,26 @@ router.get('/multiple', function (req, res) {
   if (action === 'i') {
     //qr = insertManay()
   } else if (action === 'd') {
-    // Step.updateMany(
-    //   {},
-    //   { $rename: { finishedAt: 'completedAt' } },
-    //   { multi: true },
-    // )
+    // Step.deleteMany()
   } else if (action === 'u') {
-    // Step.updateMany(
+    // * RENAME FIELDS
+    // Project.updateMany(
     //   {},
-    //   { $rename: { finishedAt: 'completedAt' } },
+    //   { $rename: { 'user': 'owner' } },
     //   { multi: true },
     //   function (err, blocks) {
     //     if (err) {
     //       throw err
     //     }
     //     console.log('done!')
-    //   },
+    //   }
     // )
-    Project.updateMany(
-      {},
-      { active: false },
-      { multi: true },
-      function (err, blocks) {
-        if (err) {
-          throw err
-        }
-        console.log('done!')
-      },
-    )
+    Step.updateMany({}, { notes: [] }, { multi: true }, function (err, blocks) {
+      if (err) {
+        throw err
+      }
+      console.log('done!')
+    })
   } else {
     res.send('No action')
   }

@@ -9,15 +9,8 @@ import {
 
 const router = express.Router()
 
+router.route('/').get(getUsers).post(createUser)
 
-router
-  .route( '/' )
-  .get( getUsers )
-  .post( createUser )
-
-router.route( '/:id' )
-  .get( getUser )
-  .delete( deleteUser )
-  .patch( updateUser )
+router.route('/:id').get(getUser).delete(deleteUser).patch(updateUser)
 
 export default router

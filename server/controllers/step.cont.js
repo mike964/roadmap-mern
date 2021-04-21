@@ -41,7 +41,7 @@ const MarkStepAsCompleted = asyncHandler(async (req, res) => {
       completed: true,
       completedAt: Date.now(),
     },
-    { new: true },
+    { new: true }
   )
 
   if (updatedStep) {
@@ -55,6 +55,42 @@ const MarkStepAsCompleted = asyncHandler(async (req, res) => {
   }
 })
 
+const addStepNote = asyncHandler(async (req, res) => {
+  console.log('--- addStepNote() ---')
+  const stepId = req.params.id
+  const newNote = { ...req.body, date: new Date(), id: Date.now() }
+
+  const step = await Step.findById(stepId)
+
+  if (step) {
+    const stepNotes = [...step.notes, newNote]
+    step.notes = stepNotes
+    const updatedStep = await step.save()
+    res.json(updatedStep)
+  } else {
+    res.status(404)
+    throw new Error('Step not found!')
+  }
+})
+const updateStepNote = asyncHandler(async (req, res) => {
+  // COMPLETE LATE
+  console.log('--- updateStepNote() ---')
+  const stepId = req.params.id
+  const newNote = { ...req.body, date: new Date(), id: Date.now() }
+
+  const step = await Step.findById(stepId)
+
+  if (step) {
+    const stepNotes = [...step.notes, newNote]
+    step.notes = stepNotes
+    const updatedStep = await step.save()
+    res.json(updatedStep)
+  } else {
+    res.status(404)
+    throw new Error('Step not found!')
+  }
+})
+
 export {
   getSteps,
   createStep,
@@ -62,4 +98,5 @@ export {
   updateStep,
   deleteStep,
   MarkStepAsCompleted,
+  addStepNote,
 }

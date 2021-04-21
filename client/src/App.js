@@ -20,7 +20,7 @@ const App = () => {
   // let { path, url } = useRouteMatch();
 
   const { isAuthenticated, loading: userLoading } = useSelector(
-    (state) => state.auth,
+    (state) => state.auth
   )
 
   // Check how many mounts happen on brad ecommerce
@@ -64,22 +64,20 @@ const App = () => {
             <NavBtns />
           </header>
 
-          {/* <div className="container-fluid p-0"> */}
           <main className="p-0 p-sm-3">
             <Switch>
               <Route exact path="/" component={HomePg} />
               {/* <Route exact path="/login" component={ LoginPg } /> */}
-              <PrivateRoute path="/projects" component={ProjectsPg} />
+              <PrivateRoute path="/projects" component={ProjectsPg} exact />
               {/* <Route path="/projects/:projectId" component={ProjectPg} exact /> */}
-              <Route path="/project/:slug" component={ProjectPg} exact />
+              <Route path="/projects/:slug" component={ProjectPg} exact />
               <Route
-                path="/overal-productiv" //component={OveralProductivity} />
+                path="/overal-productivity" //component={OveralProductivity} />
               >
                 <h3>Hiiii</h3>
               </Route>
             </Switch>
           </main>
-          {/* </div> */}
         </Router>
       )}
     </>

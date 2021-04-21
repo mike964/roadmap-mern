@@ -36,7 +36,14 @@ const ProjectTable = ({ projects }) => {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td className="clickable">
-                    <Link to={`project/${item.slug}`}>{item.name}</Link>
+                    <span
+                      className={`em-08 pr-2 ${
+                        item.active ? 'limegreen' : 'beige'
+                      }`}
+                    >
+                      <i className="fas fa-circle" />
+                    </span>
+                    <Link to={`projects/${item.slug}`}>{item.name}</Link>
                   </td>
                   <td>{description_short}</td>
                   <td>{moment(item.createdAt).format('YYYY-MM-DD')}</td>

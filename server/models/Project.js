@@ -5,11 +5,11 @@ const Schema = mongoose.Schema
 // Create Schema
 const projectSchema = new Schema(
   {
-    user: {
+    owner: {
       // owner
       type: mongoose.Schema.ObjectId,
       ref: 'User',
-      required: [true, 'Project must belong to a user'],
+      required: [true, 'Project must has an owner'],
     },
     // users: []    // contributers
     name: {
@@ -63,7 +63,7 @@ const projectSchema = new Schema(
   },
   {
     timestamps: { createdAt: false, updatedAt: true },
-  },
+  }
 )
 
 // Create bootcamp slug from the name
