@@ -144,6 +144,13 @@ const deleteProject = async (projectId) => {
   }
 }
 
+export const sortProjectBy = (x) => {
+  dispatch({
+    type: 'SORT_PROJECTS',
+    payload: x, // createdAt - updatedAt - name
+  })
+}
+
 export {
   getMyProjects,
   getProjectById,

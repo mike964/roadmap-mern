@@ -44,7 +44,7 @@ const ProjectPg = () => {
     // setTimeout( () => { setShowStepList( true ) }, 2000 )
   }, [projectSlug])
   useEffect(() => {
-    if (project._id) {
+    if (project._id && projectSlug) {
       getStepsofProject(project._id)
     }
     // setSteps()

@@ -15,13 +15,14 @@ const ProjectTable = ({ projects }) => {
   }
 
   return (
-    <Table striped className="border">
+    <Table className="border">
       <thead>
         <tr>
           <th> # </th>
           <th width="200"> Title </th>
           <th> Description </th>
           <th width="120"> Added at </th>
+          <th> </th>
         </tr>
       </thead>
       <tbody>

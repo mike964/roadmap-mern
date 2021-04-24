@@ -39,12 +39,18 @@ export default (state = initState, action) => {
       return {
         ...state,
         projects: state.projects.map((proj) =>
-          proj._id === action.id ? (proj = action.project) : proj,
+          proj._id === action.id ? (proj = action.project) : proj
         ),
       }
     case 'CLEAR_PROJECTS':
       return {
-        // delete all projects
+        projects: [],
+        currentProject: {},
+      }
+    case 'SORT_PROJECTS':
+      return {
+        ...state,
+        projects: sortProjectsByName(state.projects),
       }
     case 'COMPLETE_':
       return {
@@ -52,7 +58,7 @@ export default (state = initState, action) => {
         todos: state.todos.map((todo) =>
           todo._id === action.payload
             ? { ...todo, complete: !todo.complete }
-            : todo,
+            : todo
         ),
       }
     case 'DELETE_TODO':
@@ -63,4 +69,10 @@ export default (state = initState, action) => {
     default:
       return state
   }
+}
+
+const sortProjectsByName = (arr) => {
+  arr.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+  console.log(arr)
+  return arr
 }

@@ -2,13 +2,12 @@ import React, { useEffect } from 'react'
 import AddProjectBtnModal from '../components/project/AddProjectBtnModal'
 // import ExpansionList from '../components/ExpansionList'
 import { useSelector } from 'react-redux'
-import FilterProjectBtn from '../components/project/FilterProjectBtn'
-import { Spinner } from 'react-bootstrap'
-import Spinnerr from '../components/Spinnerr'
 import { getMyProjects } from '../redux/actions/project.actions'
 import ProjectTable from '../components/project/ProjectTable'
 import { Route, Switch, useParams } from 'react-router-dom'
 import SpinrBox from '../components/common/SpinrBox'
+import { sortProjectsByDate } from '../redux/actions/global.actions'
+import ProjectSortBy from '../components/project/ProjectSortBy'
 
 // ** My (logged in user) projects page
 const ProjectsPg = () => {
@@ -23,6 +22,8 @@ const ProjectsPg = () => {
     // }
   }, [])
 
+  const sorted_projects = sortProjectsByDate(projects)
+  // const sorted_projects = projects
   //======================================================================
   return (
     <div className="container p-0">
@@ -30,9 +31,8 @@ const ProjectsPg = () => {
         <div className="col">
           <AddProjectBtnModal />
         </div>
-        <div className="col-3">
-          <button>Sort by</button>
-          <FilterProjectBtn />
+        <div className="col-6 col-sm-4">
+          <ProjectSortBy />
         </div>
       </div>
 
@@ -40,7 +40,7 @@ const ProjectsPg = () => {
         <SpinrBox />
       ) : (
         <div className="bg-w">
-          <ProjectTable projects={projects} />
+          <ProjectTable projects={sorted_projects} />
         </div>
       )}
     </div>
