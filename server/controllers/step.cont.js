@@ -60,35 +60,61 @@ const addStepNote = asyncHandler(async (req, res) => {
   const stepId = req.params.id
   const newNote = { ...req.body, date: new Date(), id: Date.now() }
 
-  const step = await Step.findById(stepId)
+  // const step = await Step.findById(stepId)
 
-  if (step) {
-    const stepNotes = [...step.notes, newNote]
-    step.notes = stepNotes
-    const updatedStep = await step.save()
+  // if (step) {
+  //   const stepNotes = [...step.notes, newNote]
+  //   step.notes = stepNotes
+  //   const updatedStep = await step.save()
+  //   res.json(updatedStep)
+  // } else {
+  //   res.status(404)
+  //   throw new Error('Step not found!')
+  // }
+
+  const updatedStep = await Step.findByIdAndUpdate(
+    stepId,
+    {
+      $addToSet: { notes: newNote },
+    },
+    { new: true }
+  )
+
+  if (updatedStep) {
     res.json(updatedStep)
   } else {
     res.status(404)
     throw new Error('Step not found!')
   }
 })
-const updateStepNote = asyncHandler(async (req, res) => {
+
+const removeStepNote = asyncHandler(async (req, res) => {
   // COMPLETE LATE
-  console.log('--- updateStepNote() ---')
+  console.log('--- removeStepNote() ---')
   const stepId = req.params.id
-  const newNote = { ...req.body, date: new Date(), id: Date.now() }
 
-  const step = await Step.findById(stepId)
+  console.log(req.body)
+  const { noteId } = req.body
 
-  if (step) {
-    const stepNotes = [...step.notes, newNote]
-    step.notes = stepNotes
-    const updatedStep = await step.save()
+  const updatedStep = await Step.findByIdAndUpdate(
+    stepId,
+    {
+      $pull: { notes: { id: noteId } },
+    },
+    { new: true }
+  )
+
+  // console.log(updatedStep)
+
+  if (updatedStep) {
+    // res.json(`Step note ${req.body.noteId} deleted.`)
     res.json(updatedStep)
   } else {
     res.status(404)
     throw new Error('Step not found!')
   }
+  // res.end()
+  // doc.subdocs.pull({ _id: 4815162342 })
 })
 
 export {
@@ -99,4 +125,5 @@ export {
   deleteStep,
   MarkStepAsCompleted,
   addStepNote,
+  removeStepNote,
 }

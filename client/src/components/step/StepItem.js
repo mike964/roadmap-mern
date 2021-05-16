@@ -276,7 +276,7 @@ const StepItem = ({ step }) => {
             <div className="row">
               <div className="col p-2">
                 <StepNoteForm stepId={step._id} />
-                <StepNotesList notes={step.notes} />
+                <StepNotesList stepId={step._id} notes={step.notes} />
               </div>
             </div>
           </div>

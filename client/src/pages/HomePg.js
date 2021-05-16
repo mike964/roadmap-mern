@@ -6,19 +6,19 @@ import { getMyProjects } from '../redux/actions/project.actions'
 const HomePg = (props) => {
   const { isAuthenticated } = useSelector((state) => state.auth)
 
-  // useEffect(() => {
-  //   //   props.history.push( '/projects' );
-  //   // }
+  useEffect(() => {
+    //   props.history.push( '/projects' );
+    // }
 
-  //   // loadUser()
-  //   // props.history.push( '/projects' )
+    // loadUser()
+    // props.history.push( '/projects' )
 
-  //   if (isAuthenticated) {
-  //     props.history.push('/projects')
-  //   }
+    if (isAuthenticated) {
+      props.history.push('/projects')
+    }
 
-  //   // eslint-disable-next-line
-  // }, [isAuthenticated])
+    // eslint-disable-next-line
+  }, [isAuthenticated])
 
   return (
     <div>

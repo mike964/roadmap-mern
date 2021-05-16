@@ -8,6 +8,7 @@ import {
   deleteStep,
   MarkStepAsCompleted,
   addStepNote,
+  removeStepNote,
 } from '../controllers/step.cont.js'
 // import { protect } from '../middleware/auth.cont.js'
 import {
@@ -43,5 +44,6 @@ router
 router.route('/:id/complete').patch(MarkStepAsCompleted)
 // * Add note to step.notes[]
 router.route('/:id/note').post(addStepNote)
+router.route('/:id/note/delete').post(removeStepNote)
 
 export default router

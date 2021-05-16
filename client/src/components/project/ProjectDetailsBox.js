@@ -7,8 +7,8 @@ import EditBtn from '../common/EditBtn'
 import SucssFailSpinr from '../common/SucssFailSpinr'
 import SpinrBox from '../common/SpinrBox'
 import CompletionBar from './CompletionBar'
-import ActiveSwitch from './ActiveSwitch'
 import { useSelector } from 'react-redux'
+import Switch from '../common/Switch'
 
 const ProjectDetailsBox = () => {
   const { currentProject: project, loading } = useSelector(
@@ -80,6 +80,13 @@ const ProjectDetailsBox = () => {
     )
   }
 
+  const handleActiveProjectSwitch = async (e) => {
+    console.log(e.target.checked)
+    const success = await updateProject_DB(project._id, {
+      active: e.target.checked,
+    })
+  }
+
   //================================================================================================
   return (
     <Accordion>
@@ -108,7 +115,13 @@ const ProjectDetailsBox = () => {
                   <CompletionBar />
                 </div>
                 <div className="col-auto px-3 pt-1">
-                  <ActiveSwitch project={project} />
+                  {/* <ActiveSwitch project={project} /> */}
+                  <Switch
+                    label="Active"
+                    id="active-project"
+                    onChange={handleActiveProjectSwitch}
+                    checked={project.active}
+                  />
                 </div>
               </>
             )}
