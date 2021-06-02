@@ -1,6 +1,6 @@
 import React from 'react'
 
-const OveralProductivity = () => {
+const Overview = () => {
   return (
     <div>
       <div className="bg-dark">Hello</div>
@@ -8,4 +8,4 @@ const OveralProductivity = () => {
   )
 }
 
-export default OveralProductivity
+export default Overview

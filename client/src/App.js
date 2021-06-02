@@ -13,7 +13,7 @@ import ProjectPg from './pages/ProjectPg'
 import Breadcrumb from './components/Breadcrumb'
 import Sidebar from './components/Sidebar'
 import NavBtns from './components/NavBtns'
-import OveralProductivity from './pages/OveralProductivity'
+import Overview from './pages/Overview'
 
 const App = () => {
   console.log('# App.js Mounted.')
@@ -61,7 +61,7 @@ const App = () => {
         <Router>
           <header className="site-header ">
             <Navbar />
-            <NavBtns />
+            {isAuthenticated && <NavBtns />}
           </header>
 
           <main className="p-0 p-sm-3">
@@ -71,11 +71,7 @@ const App = () => {
               <PrivateRoute path="/projects" component={ProjectsPg} exact />
               {/* <Route path="/projects/:projectId" component={ProjectPg} exact /> */}
               <Route path="/projects/:slug" component={ProjectPg} exact />
-              <Route
-                path="/overal-productivity" //component={OveralProductivity} />
-              >
-                <h3>Hiiii</h3>
-              </Route>
+              <Route path="/overview" component={Overview} />
             </Switch>
           </main>
         </Router>
