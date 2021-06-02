@@ -14,7 +14,10 @@ const ProjectTable = ({ projects }) => {
 
   const filteredProjects = projects.filter((proj) => {
     return (
-      proj.name.toLowerCase().indexOf(projectSearchText.toLowerCase()) !== -1
+      proj.name.toLowerCase().indexOf(projectSearchText.toLowerCase()) !== -1 ||
+      proj.description
+        .toLowerCase()
+        .indexOf(projectSearchText.toLowerCase()) !== -1
     )
   })
 
