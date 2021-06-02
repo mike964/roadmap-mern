@@ -13,6 +13,7 @@ const ProjectTable = ({ projects }) => {
   // console.log( url, path )   //  output: / /
 
   const filteredProjects = projects.filter((proj) => {
+    // Filter & Find projects by Name or Description via Input
     return (
       proj.name.toLowerCase().indexOf(projectSearchText.toLowerCase()) !== -1 ||
       proj.description
