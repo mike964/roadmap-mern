@@ -3,11 +3,20 @@ import moment from 'moment'
 import { Table } from 'react-bootstrap'
 import { Link, useRouteMatch } from 'react-router-dom'
 import { deleteProject } from '../../redux/actions/project.actions'
+import { useSelector } from 'react-redux'
 
 // ** All projects of logged in user table
 const ProjectTable = ({ projects }) => {
-  let { path, url } = useRouteMatch()
+  const { projectSearch: projectSearchText } = useSelector(
+    (state) => state.global
+  )
   // console.log( url, path )   //  output: / /
+
+  const filteredProjects = projects.filter((proj) => {
+    return (
+      proj.name.toLowerCase().indexOf(projectSearchText.toLowerCase()) !== -1
+    )
+  })
 
   const handleDeleteProject = (id) => {
     // first pop up to make sure
@@ -28,7 +37,7 @@ const ProjectTable = ({ projects }) => {
       <tbody>
         {projects.length ? (
           <>
-            {projects.map((item, index) => {
+            {filteredProjects.map((item, index) => {
               let description_short = item.description
                 ? item.description.slice(0, 60)
                 : 'No description'

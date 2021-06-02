@@ -8,7 +8,7 @@ const ProjectSortBy = () => {
   // setSortProjectsBy
 
   return (
-    <Form inline>
+    <Form inline className="ml-3">
       <Form.Group controlId="exampleForm.SelectCustom">
         <Form.Label>Sort By</Form.Label>
         <Form.Control

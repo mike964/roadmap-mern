@@ -28,3 +28,12 @@ export const sortProjectsByDate = (arr) => {
 
   return arr
 }
+
+export const setProjectSearch = (x) => {
+  // handle project search find input text change
+
+  dispatch({
+    type: 'SET_PROJECT_SEARCH',
+    payload: x, // Boolean
+  })
+}

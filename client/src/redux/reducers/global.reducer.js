@@ -2,6 +2,7 @@ const initState = {
   hideNotes: false, // when click switch hide notes in step list of project pg
   hideCompleted: false, // hide completed todos in step list
   sortProjectsBy: '', // createdAt - updatedAt - name
+  projectSearch: '', // search-filter projects with find input in projects page
 }
 
 export default (state = initState, action) => {
@@ -20,6 +21,11 @@ export default (state = initState, action) => {
       return {
         ...state,
         sortProjectsBy: action.payload,
+      }
+    case 'SET_PROJECT_SEARCH':
+      return {
+        ...state,
+        projectSearch: action.payload,
       }
 
     default:
