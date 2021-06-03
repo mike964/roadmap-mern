@@ -3,6 +3,7 @@ const initState = {
   hideCompleted: false, // hide completed todos in step list
   sortProjectsBy: '', // createdAt - updatedAt - name
   projectSearch: '', // search-filter projects with find input in projects page
+  stepSearch: '', // find-filter steps with input in project page
 }
 
 export default (state = initState, action) => {
@@ -26,6 +27,11 @@ export default (state = initState, action) => {
       return {
         ...state,
         projectSearch: action.payload,
+      }
+    case 'SET_STEP_SEARCH':
+      return {
+        ...state,
+        stepSearch: action.payload,
       }
 
     default:

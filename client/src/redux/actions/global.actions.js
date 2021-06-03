@@ -37,3 +37,10 @@ export const setProjectSearch = (x) => {
     payload: x, // Boolean
   })
 }
+
+export const setStepSearch = (x) => {
+  dispatch({
+    type: 'SET_STEP_SEARCH',
+    payload: x, // Boolean
+  })
+}

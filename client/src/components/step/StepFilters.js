@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  setStepSearch,
   toggleHidecompleted,
   toggleHideNotes,
 } from '../../redux/actions/global.actions'
@@ -15,14 +16,22 @@ const StepFilters = () => {
 
   return (
     <div className="row">
-      <div className="col">
+      <div className="col text-center">
+        <input
+          type="text"
+          className="step-filter-input"
+          placeholder="Find a step..."
+          onChange={(e) => setStepSearch(e.target.value)}
+        />
+      </div>
+      <div className="col p-2 text-center">
         <Switch
           id="hide-notes-switch"
           label="Hide Notes"
           onChange={handleHideNotes}
         />
       </div>
-      <div className="col">
+      <div className="col p-2 text-center">
         <Switch
           id="hide-completed-id"
           label="Hide Completed"
@@ -31,12 +40,8 @@ const StepFilters = () => {
         />
       </div>
       <div className="col">
-        <span>Sort by</span>
-      </div>
-
-      <div className="col-2">
         <select className="custom-select" defaultValue="frontend">
-          {/* <option selected>Group</option> */}
+          <option selected>Sort by</option>
           <option value="frontend">Frontend</option>
           <option value="backend">Backend</option>
         </select>

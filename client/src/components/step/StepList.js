@@ -13,7 +13,13 @@ const StepList = () => {
   // const { currentUser } = useSelector( state => state.auth )
   // const { currentProject } = useSelector( state => state.project )
   const { steps, loading } = useSelector((state) => state.step)
+  const { stepSearch } = useSelector((state) => state.global)
   // const stepLoading = useSelector( state => state.step.loading )
+
+  const filteredSteps = steps.filter((stp) => {
+    // Filter & Find projects by Name or Description via Input
+    return stp.name.toLowerCase().indexOf(stepSearch.toLowerCase()) !== -1
+  })
 
   // const [ loading, setLoading ] = useState( true )
   // const steps = []
@@ -49,14 +55,12 @@ const StepList = () => {
     <div className="step-list">
       <StepListHeader />
       {loading ? (
-        <>
-          <SpinrBox />
-        </>
+        <>{/* <SpinrBox /> */}</>
       ) : (
         <>
           {steps.length && !loading ? (
             <>
-              {steps.map((step, index) => (
+              {filteredSteps.map((step, index) => (
                 <StepItem step={step} key={step._id} />
               ))}
             </>
